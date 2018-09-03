@@ -27,7 +27,7 @@ export class ProjectDependencyTableComponent extends OnDestroyComponent implemen
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columns = ['title', 'license', 'currentVersion', 'installedVersion', 'newVersion', 'type', 'createdDate', 'modifiedDate'];
+  columns = ['title', 'license', 'currentVersion', 'installedVersion', 'latestVersion', 'wantedVersion', 'bump', 'isDevDependency', 'createdDate', 'modifiedDate'];
   displayedColumns = [...this.columns];
   dataSource: MatTableDataSource<IProjectDependency>;
 
@@ -39,7 +39,7 @@ export class ProjectDependencyTableComponent extends OnDestroyComponent implemen
     super();
     this.dataSource = new MatTableDataSource([]);
     this.dataSource.filterPredicate = (projectDependency, filter) => {
-      return projectDependency.dependency.key.toLowerCase().indexOf(filter) !== -1
+      return projectDependency.dependency.title.toLowerCase().indexOf(filter) !== -1
         || ( projectDependency.dependency.license && projectDependency.dependency.license.toLowerCase().indexOf(filter) !== -1)
     }
 

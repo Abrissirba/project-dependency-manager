@@ -1,10 +1,21 @@
 <mat-accordion class="margin">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Updated package.json
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <pre><code>{{ json | json }}</code></pre>
-    </mat-expansion-panel>
-  </mat-accordion>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Latest package.json
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <pre><code>{{ latest | json }}</code></pre>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Wanted package.json
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <pre><code>{{ wanted | json }}</code></pre>
+  </mat-expansion-panel>
+
+</mat-accordion>

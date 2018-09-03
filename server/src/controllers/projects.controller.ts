@@ -70,15 +70,17 @@ export class ProjectsController {
 
     getDependencies(updatedProject: ISyncProjectDTO, dbProject: Project, dependencies: Dependency[]) {
         return updatedProject.dependencies.map(updatedProjectDependency => {
-            const dependency = dependencies.find(x => x.key === updatedProjectDependency.key);
+            const dependency = dependencies.find(x => x.title === updatedProjectDependency.title);
             const dbProjectDependency = dbProject.dependencies.find(x => x.dependencyId === dependency.id);
             const updatedDependency: ProjectDependency = {
                 projectId: dbProject.id,
                 dependencyId: dependency.id,
                 currentVersion: updatedProjectDependency.currentVersion,
                 installedVersion: updatedProjectDependency.installedVersion,
-                newVersion: updatedProjectDependency.newVersion,
-                type: updatedProjectDependency.type,
+                latestVersion: updatedProjectDependency.latestVersion,
+                wantedVersion: updatedProjectDependency.wantedVersion,
+                bump: updatedProjectDependency.bump,
+                isDevDependency: updatedProjectDependency.isDevDependency,
                 createdDate: dbProjectDependency ? dbProjectDependency.createdDate : new Date(),
                 modifiedDate: null,
             };
@@ -89,10 +91,9 @@ export class ProjectsController {
     }
 
     saveNewDependencies(updatedProject: ISyncProjectDTO, dependencies: Dependency[]) {
-        const newDependencies = updatedProject.dependencies.filter(x => !dependencies.some(ex => ex.key === x.key));
+        const newDependencies = updatedProject.dependencies.filter(x => !dependencies.some(ex => ex.title === x.title));
         const date = new Date();
         return this.dependencyService.addMany(newDependencies.map(x => ({
-            key: x.key,
             title: x.title,
             license: x.license,
             repo: x.repo,

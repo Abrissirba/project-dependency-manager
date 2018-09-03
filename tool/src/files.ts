@@ -5,6 +5,19 @@ import { ModuleInfos } from 'license-checker';
 import * as npmCheck from 'npm-check';
 import * as ncu from 'npm-check-updates';
 import * as path from 'path';
+
+export interface INpmCheckPackageModel {
+    bump: 'paths' | 'minor' | 'major';
+    devDependency: boolean;
+    easyUpgrade: boolean;
+    homepage: string;
+    installed: string;
+    latest: string;
+    moduleName: string;
+    packageJson: string;
+    packageWanted: string;
+}
+
 export class Files {
     static getPackageJson(dir): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -17,29 +30,15 @@ export class Files {
         })
     }
 
-    static getVersions(dir) {
-        const packageJsonPath = path.join(dir, 'package.json');
-
- 
-        npmCheck({
+    static getVersions(dir): Promise<INpmCheckPackageModel[]> {
+        return npmCheck({
             update: false,
+            skipUnused: true,
             cwd: dir
         })
-        .then(currentState => console.log(currentState.get('packages')));
-
-        return Promise.all([
-            Files.getCurrentVersions(packageJsonPath),
-            Files.getNewVersions(packageJsonPath),
-            Files.getInstalledVersions(dir)
-        ]).then(res => {
-            console.log(dir, 'VERSIONS');
-            return {
-                current: res[0].prod,
-                currentDev: res[0].dev,
-                new: res[1],
-                installed: res[2]
-            }
-        })
+        .then(currentState => {
+            return currentState.get('packages')
+        });
     }
 
     static getCurrentVersions(packageJsonPath: string): Promise<any> {

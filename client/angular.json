@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "version-checker-client": {
+    "project-dependency-manager-client": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/version-checker-client",
+            "outputPath": "dist/project-dependency-manager-client",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -54,18 +54,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "version-checker-client:build"
+            "browserTarget": "project-dependency-manager-client:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "version-checker-client:build:production"
+              "browserTarget": "project-dependency-manager-client:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "version-checker-client:build"
+            "browserTarget": "project-dependency-manager-client:build"
           }
         },
         "test": {
@@ -99,7 +99,7 @@
         }
       }
     },
-    "version-checker-client-e2e": {
+    "project-dependency-manager-client-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -107,11 +107,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "version-checker-client:serve"
+            "devServerTarget": "project-dependency-manager-client:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "version-checker-client:serve:production"
+              "devServerTarget": "project-dependency-manager-client:serve:production"
             }
           }
         },
@@ -127,5 +127,5 @@
       }
     }
   },
-  "defaultProject": "version-checker-client"
+  "defaultProject": "project-dependency-manager-client"
 }

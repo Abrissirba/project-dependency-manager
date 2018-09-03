@@ -10,7 +10,7 @@
     <!-- Title Column -->
     <ng-container matColumnDef="title">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-      <mat-cell *matCellDef="let projectDependency"> {{projectDependency.dependency.key}} </mat-cell>
+      <mat-cell *matCellDef="let projectDependency"> {{projectDependency.dependency.title}} </mat-cell>
     </ng-container>
 
     <!-- License Column -->
@@ -27,38 +27,52 @@
 
     <!-- installedVersion Column -->
     <ng-container matColumnDef="installedVersion">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Installed Version </mat-header-cell>
-        <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.installedVersion }} </mat-cell>
-      </ng-container>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Installed Version </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.installedVersion }} </mat-cell>
+    </ng-container>
 
-      <!-- newVersion Column -->
-    <ng-container matColumnDef="newVersion">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> New Version </mat-header-cell>
-        <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.newVersion }} </mat-cell>
-      </ng-container>
+    <!-- latestVersion Column -->
+    <ng-container matColumnDef="latestVersion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Latest Version </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.latestVersion }} </mat-cell>
+    </ng-container>
 
-    <!-- Type Column -->
-    <ng-container matColumnDef="type">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{projectDependency.type }} </mat-cell>
+    <!-- wantedVersion Column -->
+    <ng-container matColumnDef="wantedVersion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Wanted Version </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.wantedVersion }} </mat-cell>
+    </ng-container>
+
+    <!-- bump Column -->
+    <ng-container matColumnDef="bump">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Bump </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.bump }} </mat-cell>
+    </ng-container>
+
+    <!-- IsDevDependency Column -->
+    <ng-container matColumnDef="isDevDependency">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Is Dev </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.isDevDependency }} </mat-cell>
     </ng-container>
 
     <!-- Created Column -->
     <ng-container matColumnDef="createdDate">
       <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Created </mat-header-cell>
-      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.createdDate | date:'yyyy-MM-dd HH:mm' }}</mat-cell>
+      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.createdDate | date:'yyyy-MM-dd
+        HH:mm' }}</mat-cell>
     </ng-container>
 
     <!-- Modified Column -->
     <ng-container matColumnDef="modifiedDate">
-        <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Modified </mat-header-cell>
-        <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.modifiedDate | date:'yyyy-MM-dd HH:mm' }}</mat-cell>
-      </ng-container>
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Modified </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.modifiedDate | date:'yyyy-MM-dd
+        HH:mm' }}</mat-cell>
+    </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable {{row.bump}}"></mat-row>
   </mat-table>
 
-  <mat-paginator #paginator [pageSize]="50" [pageSizeOptions]="[25, 50, 75]" [showFirstLastButtons]="true">
+  <mat-paginator #paginator [pageSize]="100" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>

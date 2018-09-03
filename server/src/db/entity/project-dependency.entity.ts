@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { IProjectDependency } from '../interfaces/i-project-dependency.model';
-import { DependencyTypeEnum } from './../../models/i-sync-project-dto.model';
 import { Dependency } from './dependency.entity';
 import { Project } from './project.entity';
 
@@ -33,7 +32,7 @@ export class ProjectDependency implements IProjectDependency {
         type: 'nvarchar',
         nullable: true,
     })
-    newVersion?: string;
+    latestVersion?: string;
 
     @Column({
         type: 'nvarchar',
@@ -42,10 +41,21 @@ export class ProjectDependency implements IProjectDependency {
     installedVersion?: string;
 
     @Column({
-        type: 'int',
+        type: 'nvarchar',
         nullable: true,
     })
-    type?: DependencyTypeEnum;
+    wantedVersion?: string;
+
+    @Column({
+        type: 'bit',
+    })
+    isDevDependency: boolean;
+
+    @Column({
+        type: 'nvarchar',
+        nullable: true,
+    })
+    bump?: string;
 
     @Column({ type: 'datetime' })
     createdDate: string | Date;

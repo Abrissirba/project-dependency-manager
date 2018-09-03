@@ -1,12 +1,12 @@
 import * as path from 'path';
 import { promiseSerial } from '../shared';
 import { ModuleInfos } from './node_modules/@types/license-checker';
-import { Files } from './src/files';
+import { Files, INpmCheckPackageModel } from './src/files';
 import { HttpClient, HttpClientConfig } from './src/http-client';
-import { DependencyTypeEnum, ISyncProjectDTO } from './src/models';
+import { ISyncProjectDependencyDTO, ISyncProjectDTO } from './src/models';
 import { Options } from './src/options';
 const IGNORE = ['node_modules', 'bower_components', 'plugins/cordova-plugin*', 'vendor'];
-const CWD = '../../sx-ngx-fabric';
+const CWD = '../../';
 
 const JSON_OUTPUT = './tmp/projects.json';
 const HTTP_CONFIG: HttpClientConfig = {
@@ -15,17 +15,28 @@ const HTTP_CONFIG: HttpClientConfig = {
 
 const httpClient = new HttpClient(HTTP_CONFIG);
 
-function getProjectFiles(dir) {
+interface IProjectFiles {
+    dir: string;
+    packages: INpmCheckPackageModel[],
+    licenses: ModuleInfos,
+    packageJson: any;
+    installedPackages: any;
+}
+
+function getProjectFiles(dir): Promise<IProjectFiles> {
     return Promise.all([
         Files.getVersions(dir),
         Files.getLicenses(dir),
-        Files.getPackageJson(dir)
+        Files.getPackageJson(dir),
+        Files.getInstalledVersions(dir)
     ]).then(res => {
         return {
             dir,
-            ...res[0],
+            // ...res[0],
+            packages: res[0],
             licenses: res[1],
-            packageJson: res[2]
+            packageJson: res[2],
+            installedPackages: res[3]
         }
     })
 }
@@ -42,32 +53,40 @@ function getLicenseForDependencyTitle(title: string, licenses: ModuleInfos) {
     };
 }
 
-function updateProject(projectFile, projectFileCurrentDependencyObj, projectFileNewDependencyObj, project, projectCurrentDependency, projectNewDependency) {
-    Object.keys(projectFileCurrentDependencyObj).map(depKey => {
-        projectCurrentDependency[depKey] = projectFileCurrentDependencyObj[depKey];
-        projectNewDependency[depKey] = projectFileNewDependencyObj[depKey] || projectCurrentDependency[depKey];
-        const installedVersion = projectFile.installed ? projectFile.installed[depKey] : null;
-        project.installedDependencies[depKey] = installedVersion;
-        project.dependencies[depKey] = getLicenseForDependencyTitle(depKey, projectFile.licenses);
-    });
+function getPackageJsonDependencyKey(isDevDependency: boolean) {
+    return isDevDependency ? 'devDependencies' : 'dependencies';
 }
 
-function getProjectDependencies(projectFile, type: DependencyTypeEnum) {
-    const projectFileType = type === DependencyTypeEnum.Prod ? '' : 'Dev';
+function getPacakgeRangeSymbol(version) {
+    const firstChar = version ? version[0] : null;
+    if (firstChar && !Number(firstChar)) {
+        return firstChar;
+    }
+    return '';
+}
 
-    return Object.keys(projectFile['current' + projectFileType]).map(depKey => {
+function getProjectDependencies(projectFile: IProjectFiles, isDevDependency: boolean): ISyncProjectDependencyDTO[] {
+    const packageType = getPackageJsonDependencyKey(isDevDependency);
+
+    if (!projectFile.packageJson[packageType]) {
+        return [];
+    }
+
+    return Object.keys(projectFile.packageJson[packageType]).map(depKey => {
         const moduleInfo = getLicenseForDependencyTitle(depKey, projectFile.licenses);
-
+        const packageInfo: INpmCheckPackageModel = projectFile.packages.find(x => x.moduleName === depKey) || {} as any;
+        const rangeSymbol = getPacakgeRangeSymbol(packageInfo.packageJson);
         return {
-            key: depKey,
-            currentVersion: projectFile['current' + projectFileType][depKey],
-            newVersion: projectFile.new[depKey],
-            installedVersion: projectFile.installed ? projectFile.installed[depKey] : null,
-            repo: moduleInfo ? moduleInfo.repository : null,
-            title: moduleInfo ? moduleInfo.name : null,
+            title: depKey,
+            currentVersion: packageInfo.packageJson,
+            latestVersion: packageInfo.latest ? rangeSymbol + packageInfo.latest : null,
+            installedVersion: projectFile.installedPackages ? projectFile.installedPackages[depKey] : null,
+            bump: packageInfo.bump,
+            wantedVersion: packageInfo.packageWanted ? rangeSymbol + packageInfo.packageWanted : null,
+            repo: packageInfo.homepage,
             license: moduleInfo ? (!moduleInfo.licenses || typeof moduleInfo.licenses === 'string') ? moduleInfo.licenses.toString() : (moduleInfo.licenses as string[]).join(', ') : null,
-            type
-        };
+            isDevDependency
+        } as ISyncProjectDependencyDTO;
     });
 }
 
@@ -75,7 +94,7 @@ async function run(options: Options = {}) {
     console.log('RUN')
     const packageJsonLocations = await Files.getAllPackageJsonDirectories(options.ignore, options.cwd);
     console.log(packageJsonLocations)
-    const projectFiles = await promiseSerial(packageJsonLocations
+    const projectFiles: IProjectFiles[] = await promiseSerial(packageJsonLocations
         .map(path.dirname)
         .map(x => () => getProjectFiles(x)))
 
@@ -83,10 +102,10 @@ async function run(options: Options = {}) {
         const project = {
             title: projectFile.packageJson.name,
             path: projectFile.dir,
-            hasPackageLockFile: !!projectFile.installed,
+            hasPackageLockFile: !!projectFile.installedPackages,
             dependencies: [
-                ...getProjectDependencies(projectFile, DependencyTypeEnum.Prod),
-                ...getProjectDependencies(projectFile, DependencyTypeEnum.Dev)
+                ...getProjectDependencies(projectFile, false),
+                ...getProjectDependencies(projectFile, true)
             ]
         };
 
@@ -97,7 +116,7 @@ async function run(options: Options = {}) {
         Files.writeProjectJsonFile(projects, JSON_OUTPUT);
     }
     console.log(projects)
-    // httpClient.send(projects);
+    httpClient.send(projects);
 }
 
 run({

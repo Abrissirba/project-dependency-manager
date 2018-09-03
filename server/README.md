@@ -1,4 +1,4 @@
-# version-checker
+# project-dependency-manager
 
 ## Description
 

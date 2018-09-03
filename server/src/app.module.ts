@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
+import { ProjectDependenciesController } from './controllers/project-dependencies.controller';
 import { ProjectLocationsController } from './controllers/project-locations.conroller';
 import { ProjectsController } from './controllers/projects.controller';
 import { Dependency, Project } from './db/entity';
 import { ProjectDependency } from './db/entity/project-dependency.entity';
 import { ProjectLocation } from './db/entity/project-location.entity';
 import { DependencyService } from './services/dependency.service';
+import { ProjectDependenciesService } from './services/project-dependencies.service';
 import { ProjectLocationService } from './services/project-location.service';
 import { ProjectService } from './services/project.service';
 
@@ -15,7 +17,7 @@ const ormConfig: any = {
   host: 'MARCUS',
   username: 'VersionCheckerAdmin',
   password: 'password',
-  database: 'version-checker',
+  database: 'project-dependency-manager',
   synchronize: true,
   options: {
       encrypt: true,
@@ -36,6 +38,7 @@ const providers = [
   ProjectService,
   ProjectLocationService,
   DependencyService,
+  ProjectDependenciesService,
 ];
 
 @Module({
@@ -47,6 +50,7 @@ const providers = [
     AppController,
     ProjectsController,
     ProjectLocationsController,
+    ProjectDependenciesController,
   ],
   providers,
 })

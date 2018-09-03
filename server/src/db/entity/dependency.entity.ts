@@ -12,11 +12,6 @@ export class Dependency implements IDependency {
 
     @Column({
         type: 'nvarchar',
-    })
-    key: string;
-
-    @Column({
-        type: 'nvarchar',
         nullable: true,
     })
     title: string;

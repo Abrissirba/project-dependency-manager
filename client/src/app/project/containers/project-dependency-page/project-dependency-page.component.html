@@ -1,3 +1,5 @@
-<p>
-  project-dependency-page works!
-</p>
+<app-navbar>
+  <div left>Project Dependency Manager</div>
+</app-navbar>
+
+<app-project-dependency-table [projectDependencies]="projectDependencies$ | async"></app-project-dependency-table>

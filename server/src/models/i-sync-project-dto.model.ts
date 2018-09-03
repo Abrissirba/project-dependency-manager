@@ -6,14 +6,15 @@ export interface ISyncProjectDTO {
 }
 
 export interface ISyncProjectDependencyDTO {
-    key: string;
     title: string;
+    bump: string;
     currentVersion: string;
-    newVersion: string;
+    latestVersion: string;
     installedVersion: string;
+    wantedVersion: string;
     license: string;
     repo: string;
-    type: DependencyTypeEnum;
+    isDevDependency: boolean;
 }
 
 export enum DependencyTypeEnum {
