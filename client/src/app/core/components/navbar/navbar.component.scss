@@ -1,0 +1,53 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import 'src/styles/material-theme.scss';
+
+:host {
+  display: block;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+mat-toolbar-row {
+  padding: 0 8px;
+}
+
+.second {
+  background-color: mat-color($app-accent, A200);
+  height: 48px;
+}
+
+mat-toolbar > div {
+  height: 40px;
+}
+
+::ng-deep app-navbar {
+  [left], mat-icon.material-icons {
+    line-height: 40px;
+  }
+  [left] {
+    font: 400 20px/40px Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  [second] {
+    line-height: 40px;
+  }
+}
+
+.second button {
+    height: 48px;
+}
+
+.ink-bar {
+  background-color: #fff;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}

@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+@import 'src/styles/material-theme.scss';
+
+.settings-menu {
+    padding: 0;
+}
+
+mat-list-item {
+    border-left: 2px solid transparent;
+}
+mat-list-item.active {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-left: 2px solid mat-color($app-primary);
+}

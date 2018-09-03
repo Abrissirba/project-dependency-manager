@@ -1,0 +1,16 @@
+.mat-headline {
+    line-height: 40px;
+}
+
+.has-package-lock-file {
+    line-height: 24px;
+}
+
+.has-package-lock-file .mat-icon {
+    color: green;
+    margin-left: 4px;
+}
+
+.description {
+    white-space: pre-line;
+}

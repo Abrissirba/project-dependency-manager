@@ -1,0 +1,10 @@
+<app-navbar>
+  <div left>Version Checker</div>
+</app-navbar>
+
+<app-project-location-table [projectLocations]="projectLocations$ | async" (projectLocationClick)="onProjectLocationClick($event)"
+  (add)="onAddProjectLocation($event)" (ignore)="onIgnoreProjectLocation($event)">
+  <form [formGroup]="projectLocationFilterFormGroup">
+    <mat-checkbox style="margin-right: 24px" formControlName="onlyNew">Show only new</mat-checkbox>
+  </form>
+</app-project-location-table>

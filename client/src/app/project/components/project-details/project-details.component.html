@@ -1,0 +1,9 @@
+<div fxLayout>
+  <h2 class="mat-headline"> {{ project?.title }} </h2>
+  <button mat-icon-button (click)="onEditClick($event)"><mat-icon>edit</mat-icon></button>
+</div>
+<p class="description" *ngIf="project?.description"> {{ project?.description }} </p>
+<p fxLayout class="has-package-lock-file">
+  <span>Package-lock</span>
+  <mat-icon [class.warn]="!project?.hasPackageLockFile">{{ project?.hasPackageLockFile ? 'check' : 'cancel' }}</mat-icon>
+</p>

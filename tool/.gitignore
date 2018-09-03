@@ -1,0 +1,26 @@
+# dependencies
+/node_modules
+/src/public/app
+
+# IDE
+/.idea
+/.awcache
+# /.vscode
+
+# misc
+npm-debug.log
+
+# example
+/quick-start
+
+# tests
+/test
+/coverage
+/.nyc_output
+/tmp
+
+# dist
+/dist
+
+#local
+ormconfig.local.json

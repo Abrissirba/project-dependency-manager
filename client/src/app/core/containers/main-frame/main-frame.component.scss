@@ -1,0 +1,17 @@
+.mat-drawer-content {
+    min-height: 100vh;
+}
+
+.mat-drawer {
+    top: 66px;
+    border-right: 1px solid #ccc;
+}
+
+.main-frame-content {
+    margin-top: 66px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

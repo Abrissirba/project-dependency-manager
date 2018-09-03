@@ -1,0 +1,11 @@
+<app-navbar>
+  <div left>Version Checker</div>
+</app-navbar>
+
+<div class="vc-card margin">
+  <app-project-details [project]="project$ | async" (edit)="onEdit($event)"></app-project-details>
+</div>
+
+<app-project-dependencies-json-panel [project]="project$ | async"></app-project-dependencies-json-panel>
+
+<app-project-dependency-table [projectDependencies]="(project$ | async)?.dependencies"></app-project-dependency-table>

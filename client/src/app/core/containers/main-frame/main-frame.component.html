@@ -1,0 +1,10 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" [opened]="isSidenavOpen">
+      <app-sidenav [items]="sidenavItems"></app-sidenav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="main-frame-content">
+          <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

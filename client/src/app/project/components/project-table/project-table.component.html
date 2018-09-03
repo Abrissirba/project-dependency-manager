@@ -1,0 +1,48 @@
+<div class="vc-table-container margin">
+  <app-table-search-header (search)="onSearch($event)"></app-table-search-header>
+
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-cell *matCellDef="let project"> {{project.title}} </mat-cell>
+    </ng-container>
+
+    <!-- Path Column -->
+    <ng-container matColumnDef="projectLocationPath">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Path </mat-header-cell>
+      <mat-cell *matCellDef="let project"> {{project.projectLocation.path}} </mat-cell>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+      <mat-cell *matCellDef="let project"> {{ project.description }} </mat-cell>
+    </ng-container>
+
+    <!-- Package Lock Column -->
+    <ng-container matColumnDef="hasPackageLockFile">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Package Lock </mat-header-cell>
+      <mat-cell *matCellDef="let project"> {{ project.hasPackageLockFile }} </mat-cell>
+    </ng-container>
+
+    <!-- Created Column -->
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Created </mat-header-cell>
+      <mat-cell *matCellDef="let project" style="max-width: 150px"> {{ project.createdDate | date:'yyyy-MM-dd HH:mm' }} </mat-cell>
+    </ng-container>
+
+    <!-- Modified Column -->
+    <ng-container matColumnDef="modifiedDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Modified </mat-header-cell>
+      <mat-cell *matCellDef="let project" style="max-width: 150px"> {{ project.modifiedDate | date:'yyyy-MM-dd HH:mm' }} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

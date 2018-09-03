@@ -1,0 +1,48 @@
+.vc-table-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    overflow: auto;
+    @include mat-elevation(1);
+    background-color: #fff;
+}
+
+.mat-row {
+    position: relative;
+}
+.mat-row .action-buttons {
+    display: none;
+    position: absolute;
+    right: 0px;
+}
+
+.mat-row:hover .action-buttons {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.mat-row.clickable {
+    cursor: pointer;
+
+    &:hover {
+        background-color: #fafafa;
+    }
+}
+
+.action-buttons {
+    background-color: #fafafa;
+    button {
+        margin-right: 8px;
+    }
+}
+
+.vc-table-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+}
+
+.vc-table-header .mat-form-field {
+    font-size: 16px;
+    width: 100%;
+}

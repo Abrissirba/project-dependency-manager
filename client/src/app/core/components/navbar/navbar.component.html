@@ -1,0 +1,25 @@
+<mat-toolbar color="primary" role="Toolbar">
+  <mat-toolbar-row>
+      <div fxLayout fxLayoutAlign="space-between center" style="width: 100%">
+          <div fxFlex>
+              <div fxLayout>
+                  <button mat-icon-button (click)="onMenuClick()" role="button">
+                      <mat-icon>menu</mat-icon>
+                  </button>
+                  <ng-content select="[left]"></ng-content>
+              </div>
+          </div>
+          <div>
+              <ng-content select="[center]"></ng-content>
+          </div>
+          <div fxFlex>
+              <div fxLayout fxLayoutAlign="end center">
+                  <ng-content select="[right]"></ng-content>
+              </div>
+          </div>
+      </div>
+  </mat-toolbar-row>
+  <mat-toolbar-row class="second" *ngIf="hasSecondToolbar">
+    <ng-content select="[second]"></ng-content>
+</mat-toolbar-row>
+</mat-toolbar>

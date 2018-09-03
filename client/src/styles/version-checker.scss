@@ -1,0 +1,29 @@
+.margin {
+    margin: 16px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.vc-card {
+    background-color: #fff;
+    @include mat-elevation(1);
+    padding: 16px;
+}
+
+.warn {
+    color: mat-color($app-warn) !important;
+}
+
+p {
+    margin: 8px 0;
+}
+
+.mat-expansion-panel-header {
+    padding: 0 16px !important;
+}
+
+.mat-accordion {
+    display: block;
+}

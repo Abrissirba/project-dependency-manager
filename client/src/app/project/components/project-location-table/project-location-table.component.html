@@ -1,0 +1,53 @@
+<div class="vc-table-container margin">
+  <div fxLayout fxLayoutAlign=" center" >
+      <app-table-search-header fxFlex (search)="onSearch($event)"></app-table-search-header>
+      <ng-content></ng-content>
+  </div>
+
+
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-cell *matCellDef="let projectLocation"> {{projectLocation.title}} </mat-cell>
+    </ng-container>
+
+    <!-- Path Column -->
+    <ng-container matColumnDef="path">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Path </mat-header-cell>
+      <mat-cell *matCellDef="let projectLocation"> {{projectLocation.path}} </mat-cell>
+    </ng-container>
+
+    <!-- Project Column -->
+    <ng-container matColumnDef="project">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Project </mat-header-cell>
+      <mat-cell *matCellDef="let projectLocation"> {{ projectLocation.project ? projectLocation.project.title : '' }} </mat-cell>
+    </ng-container>
+
+    <!-- Ignored Column -->
+    <ng-container matColumnDef="ignoreDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Ignored </mat-header-cell>
+      <mat-cell *matCellDef="let projectLocation" style="max-width: 150px"> {{projectLocation.ignoreDate | date:'yyyy-MM-dd
+        HH:mm' }} </mat-cell>
+    </ng-container>
+
+    <!-- Created Column -->
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Created </mat-header-cell>
+      <mat-cell *matCellDef="let projectLocation" style="max-width: 150px"> 
+        {{ projectLocation.createdDate | date:'yyyy-MM-dd HH:mm' }} 
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" [disabled]="projectLocation.project" (click)="onAddClick(projectLocation)">Add</button>
+          <button mat-raised-button color="warn" (click)="onIgnoreClick(projectLocation)">Ignore</button>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

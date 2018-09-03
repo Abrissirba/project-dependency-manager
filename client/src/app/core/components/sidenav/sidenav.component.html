@@ -1,0 +1,8 @@
+<div class="classq-widget settings-menu">
+    <mat-nav-list>
+      <mat-list-item [routerLink]="item.route" routerLinkActive="active" *ngFor="let item of items">
+        <a matLine [routerLink]="item.route" routerLinkActive="active">{{ item.title }}</a>
+        <!-- <mat-icon>chevron_right</mat-icon> -->
+      </mat-list-item>
+    </mat-nav-list>
+  </div>

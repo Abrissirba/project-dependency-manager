@@ -1,0 +1,10 @@
+<div mat-dialog-title>
+  {{ options?.title }}
+</div>
+
+<div mat-dialog-content>{{ options?.message }}</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">{{ options?.cancel }}</button>
+  <button mat-button (click)="ok()">{{ options?.ok }}</button>
+</div>

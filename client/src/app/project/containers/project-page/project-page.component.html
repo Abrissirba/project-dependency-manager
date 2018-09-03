@@ -1,0 +1,8 @@
+<app-navbar>
+  <div left>Version Checker</div>
+</app-navbar>
+
+<app-project-table 
+  [projects]="projects$ | async" 
+  (projectClick)="onProjectClick($event)">
+</app-project-table>

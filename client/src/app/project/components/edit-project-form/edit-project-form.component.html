@@ -1,0 +1,8 @@
+<form *ngIf="projectFormGroup" [formGroup]="projectFormGroup">
+    <mat-form-field>
+      <input matInput placeholder="Title *" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field >
+      <textarea matInput placeholder="Description" formControlName="description" matTextareaAutosize="true"></textarea>
+    </mat-form-field>  
+  </form>

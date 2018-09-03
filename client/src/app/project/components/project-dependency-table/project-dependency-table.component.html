@@ -1,0 +1,64 @@
+<div class="vc-table-container margin">
+  <div fxLayout fxLayoutAlign=" center">
+    <app-table-search-header fxFlex (search)="onSearch($event)"></app-table-search-header>
+    <ng-content></ng-content>
+  </div>
+
+
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency"> {{projectDependency.dependency.key}} </mat-cell>
+    </ng-container>
+
+    <!-- License Column -->
+    <ng-container matColumnDef="license">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> License </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency"> {{projectDependency.dependency.license}} </mat-cell>
+    </ng-container>
+
+    <!-- currentVersion Column -->
+    <ng-container matColumnDef="currentVersion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Current Version </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.currentVersion }} </mat-cell>
+    </ng-container>
+
+    <!-- installedVersion Column -->
+    <ng-container matColumnDef="installedVersion">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Installed Version </mat-header-cell>
+        <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.installedVersion }} </mat-cell>
+      </ng-container>
+
+      <!-- newVersion Column -->
+    <ng-container matColumnDef="newVersion">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> New Version </mat-header-cell>
+        <mat-cell *matCellDef="let projectDependency"> {{ projectDependency.newVersion }} </mat-cell>
+      </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{projectDependency.type }} </mat-cell>
+    </ng-container>
+
+    <!-- Created Column -->
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Created </mat-header-cell>
+      <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.createdDate | date:'yyyy-MM-dd HH:mm' }}</mat-cell>
+    </ng-container>
+
+    <!-- Modified Column -->
+    <ng-container matColumnDef="modifiedDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 150px"> Modified </mat-header-cell>
+        <mat-cell *matCellDef="let projectDependency" style="max-width: 150px"> {{ projectDependency.modifiedDate | date:'yyyy-MM-dd HH:mm' }}</mat-cell>
+      </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageSize]="50" [pageSizeOptions]="[25, 50, 75]" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

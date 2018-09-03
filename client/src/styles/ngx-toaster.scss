@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+@import "~ngx-toastr/toastr";
+
+.toast-container .toast {
+    border-radius: 0;
+    padding: 16px 16px 16px 52px;
+    @include mat-elevation(2);
+}
+
+.toast-container .toast:hover {
+    @include mat-elevation(4);
+}
+
+.toast-success {
+    background-color: #4CAF50;
+}
+
+.toast-info {
+    background-color: #3f51b5;
+}
+
+.toast-error {
+    background-color: #F44336;
+}
